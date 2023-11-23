@@ -45,6 +45,10 @@ public:
 
 	void get_bytes(size_t index, u_char_t* dst);
 
+	std::string get_name(size_t index) const;
+
+	bool is_folder(size_t index) const;
+
 private:
 
 	void read_file(const std::string&);

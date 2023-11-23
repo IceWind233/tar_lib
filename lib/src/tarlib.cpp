@@ -46,6 +46,14 @@ void Tar::get_bytes(size_t index, u_char_t* dst) {
 	}
 }
 
+std::string Tar::get_name(size_t index) const {
+	return std::string(tar_headers_[index]->file_name, tar_headers_[index]->file_name + 100);
+}
+
+bool Tar::is_folder(size_t index) const {
+	return tar_headers_[index]->file_type[0] == '5';
+}
+
 void Tar::read_file(const std::string& file_name) {
 	auto tar_file = std::make_shared<std::ifstream>(file_name, std::ios::binary);
 
