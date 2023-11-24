@@ -37,6 +37,10 @@ size_t Tar::get_size(size_t index) const {
 	}
 }
 
+size_t Tar::length() const {
+	return tar_headers_.size();
+}
+
 void Tar::get_bytes(size_t index, u_char_t* dst) {
 	if (index < tar_headers_.size()) {
 		tarobj2bytes(tar_headers_[index], dst);
@@ -48,6 +52,21 @@ void Tar::get_bytes(size_t index, u_char_t* dst) {
 
 std::string Tar::get_name(size_t index) const {
 	return std::string(tar_headers_[index]->file_name, tar_headers_[index]->file_name + 100);
+}
+
+size_t* Tar::get_all_size() const {
+	auto result = new size_t[tar_headers_.size()];
+
+	for (auto idx = 0; idx < tar_headers_.size(); ++idx) {
+		auto size = octStr2int(
+			std::string(
+				tar_headers_[idx]->file_size,
+				tar_headers_[idx]->file_size + 12)
+			);
+		result[idx] = round_up(size, tar_header::kTarHeaderSize);
+	}
+
+	return result;
 }
 
 bool Tar::is_folder(size_t index) const {

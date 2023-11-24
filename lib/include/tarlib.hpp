@@ -43,9 +43,13 @@ public:
 
 	size_t get_size(size_t index) const;
 
+	size_t length() const;
+
 	void get_bytes(size_t index, u_char_t* dst);
 
 	std::string get_name(size_t index) const;
+
+	size_t* get_all_size() const;
 
 	bool is_folder(size_t index) const;
 
